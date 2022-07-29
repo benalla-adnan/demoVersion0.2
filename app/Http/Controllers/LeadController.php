@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\LeadsImport;
 use App\Models\countries;
 use App\Models\Lead;
 use App\Models\lead_sources;
 use App\Models\lead_status;
 use App\Models\TagAssign;
 use App\Models\tags;
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LeadController extends Controller
 {
@@ -20,13 +22,12 @@ class LeadController extends Controller
     public function index()
     {
             $datas = Lead::all();
-            return view("backend.pages.lead.lead",compact("datas"));
+            $statuses = lead_status::all();
+            return view("backend.pages.lead.lead",compact("datas","statuses"));
     }
 
     public function create()
     {
-
-      
         $data['countries'] = countries::all();
         $data['statuses']  = lead_status::where('status', 'active')->get();
         $data['sources']   = lead_sources::where('status', 'active')->get();
@@ -144,6 +145,11 @@ class LeadController extends Controller
         return view ('backend.pages.lead.lead-details',compact("data"));
 }
 
+public function import(Request $request){
+    //return $request;
+    Excel::Import(new LeadsImport($request->lead_status),request()->file('file'));
+    return back();
+}
 
 public function destroy($id){
     Lead::destroy($id);

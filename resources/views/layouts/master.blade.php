@@ -26,7 +26,7 @@
     </head>
     @php
     $usr = Auth::guard('admin')->user();
-@endphp
+    @endphp
 
     <body id="body" class="dark-sidebar">
         @include('partials.main-sidebar')
@@ -110,6 +110,7 @@
 
         <!-- Javascript  -->   
         @include('partials.footer-scripts')
+        
 
         <script>
             $(function(e){

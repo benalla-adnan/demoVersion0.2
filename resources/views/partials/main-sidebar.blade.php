@@ -78,10 +78,13 @@
                                     </li><!--end nav-item-->
                                     @endif
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.admins.index') }}">Permission</a>
+                                        <a class="nav-link" href="{{ route('admin.admins.index') }}">Admins</a>
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
+                                    </li><!--end nav-item-->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.settings') }}">Advanced Settings</a>
                                     </li><!--end nav-item-->
                                 </ul><!--end nav-->
                             </div><!--end sidebarCrypto-->

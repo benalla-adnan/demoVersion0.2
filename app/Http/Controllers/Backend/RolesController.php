@@ -73,7 +73,7 @@ class RolesController extends Controller
         ]);
 
         // Process Data
-        $role = Role::create(['name' => $request->name, 'guard_name' => 'admin']);
+        $role = Role::create(['name' => $request->name, 'guard_name' => 'web']);
 
         // $role = DB::table('roles')->where('name', $request->name)->first();
         $permissions = $request->input('permissions');
@@ -131,10 +131,10 @@ class RolesController extends Controller
         // TODO: You can delete this in your local. This is for heroku publish.
         // This is only for Super Admin role,
         // so that no-one could delete or disable it by somehow.
-        if ($id === 1) {
-            session()->flash('error', 'Sorry !! You are not authorized to edit this role !');
-            return back();
-        }
+        // if ($id === 1) {
+        //     session()->flash('error', 'Sorry !! You are not authorized to edit this role !');
+        //     return back();
+        // }
 
         // Validation Data
         $request->validate([
