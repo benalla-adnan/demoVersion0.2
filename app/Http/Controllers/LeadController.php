@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\UsersExport;
-use App\Imports\UsersImport;
+use App\Imports\LeadsImport;
+use App\Exports\LeadsExport;
 use App\Models\countries;
 use App\Models\Lead;
 use App\Models\lead_sources;
 use App\Models\lead_status;
+use App\Models\TagAssign;
+use App\Models\tags;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,13 +23,12 @@ class LeadController extends Controller
     public function index()
     {
             $datas = Lead::all();
-            return view("backend.pages.lead.lead",compact("datas"));
+            $statuses = lead_status::all();
+            return view("backend.pages.lead.lead",compact("datas","statuses"));
     }
 
     public function create()
     {
-
-      
         $data['countries'] = countries::all();
         $data['statuses']  = lead_status::where('status', 'active')->get();
         $data['sources']   = lead_sources::where('status', 'active')->get();
@@ -145,6 +146,11 @@ class LeadController extends Controller
         return view ('backend.pages.lead.lead-details',compact("data"));
 }
 
+public function import(Request $request){
+    //return $request;
+    Excel::Import(new LeadsImport($request->lead_status),request()->file('file'));
+    return back();
+}
 
 public function destroy($id){
     Lead::destroy($id);
@@ -152,6 +158,6 @@ public function destroy($id){
 }
 
 public function export(){
-    return Excel::download(new UsersExport,('Leads-'.time().'.xlsx'));
+    return Excel::download(new LeadsExport,('Leads-'.time().'.xlsx'));
 }
 }

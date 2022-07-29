@@ -59,7 +59,14 @@
                     </table> 
                 </div> 
                 <div class="row">
+<<<<<<< HEAD
                        
+=======
+                    <div class="col">
+                        <a href="{{url('create-lead')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
+       
+                    </div><!--end col-->      
+>>>>>>> 84ac2b614cb755567f0c20428b070b6536738a1e
                     <div class="col-auto">
                         <nav aria-label="...">
                             <ul class="pagination pagination-sm mb-0">
@@ -82,6 +89,11 @@
         </div><!--end card-->
     </div> <!-- end col -->
 </div> <!-- end row -->
-
-
+<form action="import">
+<div>
+    <input type="file">
+    <button type="submit">Import</button>
+</div>
+</form>
 @endsection
+

@@ -1,11 +1,11 @@
 
-@extends('backend.layouts.master')
+@extends('layouts.master')
 
 @section('title')
 Admin Edit - Admin Panel
 @endsection
 
-@section('styles')
+@section('css')
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
 <style>
@@ -15,27 +15,9 @@ Admin Edit - Admin Panel
 </style>
 @endsection
 
-@section('admin-content')
+@section('content')
 
-<!-- page title area start -->
-<div class="page-title-area">
-    <div class="row align-items-center">
-        <div class="col-sm-6">
-            <div class="breadcrumbs-area clearfix">
-                <h4 class="page-title pull-left">Admin Edit</h4>
-                <ul class="breadcrumbs pull-left">
-                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('admin.admins.index') }}">All Admins</a></li>
-                    <li><span>Edit Admin - {{ $admin->name }}</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-6 clearfix">
-            @include('backend.layouts.partials.logout')
-        </div>
-    </div>
-</div>
-<!-- page title area end -->
+
 
 <div class="main-content-inner">
     <div class="row">

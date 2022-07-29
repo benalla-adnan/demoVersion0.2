@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -128,6 +129,7 @@ class UsersController extends Controller
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
+
         $user->save();
 
         $user->roles()->detach();

@@ -11,4 +11,18 @@ class Lead extends Model
     public $timestamps = false;
     protected $table = 'leads';
 
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'street',
+        'state',
+        'city',
+        'zip_code',
+        'website',
+        'company',
+        'description', 
+        'email',
+        'phone',
+        'lead_status_id'
+    ];
 }

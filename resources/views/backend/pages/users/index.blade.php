@@ -21,6 +21,9 @@ Users - Admin Panel
 
 @section('content')
 
+@php
+$usr = Auth::guard('admin')->user();
+@endphp
 
 <div class="main-content-inner">
     <div class="row">
@@ -59,8 +62,9 @@ Users - Admin Panel
                                         @endforeach
                                     </td>
                                     <td>
+                                        @if($usr->can('user.edit'))
                                         <a class="btn btn-success text-white" href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
-
+                                        @endif
                                         <a class="btn btn-danger text-white" href="{{ route('admin.users.destroy', $user->id) }}"
                                         onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
                                             Delete

@@ -16,12 +16,23 @@
                     <li class="nav-item">
                         <a href="priorities" class="nav-link" aria-selected="true">Priorities</a>
                     </li>
+                   
+                    
                     <li class="nav-item">
-                        <a href="" class="nav-link" aria-selected="true">Currencies</a>
+                        <a href="{{route('admin.currencies')}}" class="nav-link" aria-selected="true">Currencies</a>
+                    </li>
+                   
+                    <li class="nav-item">
+    
+                        <a href="{{route('admin.leadStatus')}}" class="nav-link" aria-selected="true">Lead Status</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link" aria-selected="true">Countries</a>
+                        <a href="{{route('admin.leadSource')}}" class="nav-link" aria-selected="true">Lead Source</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link" aria-selected="true">Email Configuration</a>
+                    </li>
+                    
                     <li class="nav-item">
                         <a href="departments" class="nav-link" aria-selected="true">Departements</a>
                     </li>
@@ -41,4 +52,6 @@
         </div><!--end card-->
     </div><!--end col-->
 </div><!--end row-->
+
+
 @endsection
