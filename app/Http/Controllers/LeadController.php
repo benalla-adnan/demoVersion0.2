@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use App\Models\countries;
 use App\Models\Lead;
 use App\Models\lead_sources;
 use App\Models\lead_status;
-use App\Models\TagAssign;
-use App\Models\tags;
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LeadController extends Controller
 {
@@ -31,7 +32,7 @@ class LeadController extends Controller
         $data['statuses']  = lead_status::where('status', 'active')->get();
         $data['sources']   = lead_sources::where('status', 'active')->get();
         $data['users']   = User::where(['is_active' => 1, 'deleted_at' => null])->get();
-        return view('admin.lead.lead-add', $data);
+        return view('backend.pages.lead.lead-add', $data);
     }
     public function store(Request $request)
     {
@@ -150,4 +151,7 @@ public function destroy($id){
     return back();
 }
 
+public function export(){
+    return Excel::download(new UsersExport,('Leads-'.time().'.xlsx'));
+}
 }

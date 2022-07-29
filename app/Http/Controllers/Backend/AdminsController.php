@@ -191,5 +191,10 @@ class AdminsController extends Controller
 
         session()->flash('success', 'Admin has been deleted !!');
         return back();
+
+      
+        
     }
+
+   
 }

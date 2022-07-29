@@ -14,6 +14,11 @@ list project
 <?php
 $time_left = floor((strtotime($project->due_date)-strtotime($project->begin_date))/86400);
 ?>
+
+
+    <a href="{{route('admin.create-project')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
+
+
 <div class="col-lg-4">
     <div class="card">
         <div class="card-body">                                        

@@ -12,6 +12,16 @@
     Lead
 @endsection
 @section('content')
+<div class="col">
+    <a href="{{route('admin.create')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
+
+    <form action="export" method="get">
+        
+        <a href="export">Export Data</a>
+    </form>
+   
+   
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -49,9 +59,7 @@
                     </table> 
                 </div> 
                 <div class="row">
-                    <div class="col">
-                        <a href="{{url('create-lead')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
-                    </div><!--end col-->      
+                       
                     <div class="col-auto">
                         <nav aria-label="...">
                             <ul class="pagination pagination-sm mb-0">
