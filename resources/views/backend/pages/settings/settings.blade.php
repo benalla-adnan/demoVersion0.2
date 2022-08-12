@@ -14,7 +14,7 @@
                         <a href="languages" class="nav-link" aria-selected="true">Languages</a>
                     </li>
                     <li class="nav-item">
-                        <a href="priorities" class="nav-link" aria-selected="true">Priorities</a>
+                        <a href="/admin/priorities" class="nav-link" aria-selected="true">Priorities</a>
                     </li>
                    
                     
@@ -29,12 +29,10 @@
                     <li class="nav-item">
                         <a href="{{route('admin.leadSource')}}" class="nav-link" aria-selected="true">Lead Source</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link" aria-selected="true">Email Configuration</a>
-                    </li>
+                    
                     
                     <li class="nav-item">
-                        <a href="departments" class="nav-link" aria-selected="true">Departements</a>
+                        <a href="/admin/departments" class="nav-link" aria-selected="true">Departements</a>
                     </li>
                 </ul>
 

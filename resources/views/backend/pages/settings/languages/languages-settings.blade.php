@@ -33,7 +33,7 @@
                                         <td> {{$languages->name}}</td>
                                         <td>{{$languages->short_name}}</td>
                                         <td>{{$languages->status}}</td>
-                                        <td><a href="edit-languages/{{$languages->id}}" value="{{$languages->id}}"><i class="las la-pen text-secondary font-16"></i></a>&nbsp;
+                                        <td><a href="{{ url('admin/edit-languages/'.$languages->id) }}" value="{{$languages->id}}"><i class="las la-pen text-secondary font-16"></i></a>&nbsp;
                                             <a href="delete-languages/{{$languages->id}}" value="{{$languages->id}}" class="mr-2"><i class="las la-trash-alt text-secondary font-16"></i></a></td>
                                     </tr>
                                 @endforeach

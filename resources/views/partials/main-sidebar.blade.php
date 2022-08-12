@@ -59,6 +59,12 @@
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
                                         <a href="{{route('admin.project')}}" class="nav-link ">Projects</a>
+                                    </li> 
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.customer') }}">Customers</a>
+                                    </li><!--end nav-item-->
+                                    <li class="nav-item">
+                                        <a href="/admin/project/task/view" class="nav-link ">Tasks</a>
                                     </li><!--end nav-item-->
                                 </ul><!--end nav-->
                             </div><!--end sidebarAnalytics-->
@@ -85,7 +91,11 @@
                                     </li><!--end nav-item-->
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.settings') }}">Advanced Settings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ url('admin/profile/'.$usr->id) }}">Profile</a>
                                     </li><!--end nav-item-->
+                                   <!--end nav-item-->
                                 </ul><!--end nav-->
                             </div><!--end sidebarCrypto-->
                         </li><!--end nav-item-->

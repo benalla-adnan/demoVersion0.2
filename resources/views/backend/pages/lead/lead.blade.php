@@ -13,26 +13,28 @@
 @endsection
 @section('content')
 <div class="col">
-    <a href="{{route('admin.create')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
+    
+   
 
-    <form action="export" method="get">
+    {{-- <form action="export" method="get" >
+        <button class="btn btn-primary btn-sm px-4 "">Export Data</button>
         
-        <a href="export">Export Data</a>
     </form>
-   
-   
-
+    --}}
 <div class="row">
+    
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <a href="{{ URL::to('admin/export') }}" class="btn btn-outline-primary custom-btn-small"><span class="fa fa-upload"> &nbsp;</span>{{ __('Export Customer') }}</a>
+                <a href="{{route('admin.create')}}" class="btn btn-outline-primary custom-btn-small"><span class="fa fa-plus"> &nbsp;</span>{{ __('New Lead') }}</a>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                         <tr>
                             <th>Name</th>
-                            <th>zip_code</th>
-                            <th>phone</th>
+                            <th>Zip Code</th>
+                            <th>Phone</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -59,14 +61,9 @@
                     </table> 
                 </div> 
                 <div class="row">
-<<<<<<< HEAD
                        
-=======
-                    <div class="col">
-                        <a href="{{url('create-lead')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
-       
+                   
                     </div><!--end col-->      
->>>>>>> 84ac2b614cb755567f0c20428b070b6536738a1e
                     <div class="col-auto">
                         <nav aria-label="...">
                             <ul class="pagination pagination-sm mb-0">
@@ -89,11 +86,16 @@
         </div><!--end card-->
     </div> <!-- end col -->
 </div> <!-- end row -->
-<form action="import">
+<form action="import" method="POST" enctype="multipart/form-data">
+    {!! csrf_field() !!}
 <div>
-    <input type="file">
-    <button type="submit">Import</button>
-</div>
+    <input type="file" accept=".xlsx">
+    <button type="submit" class="btn btn-primary btn-sm px-4 ">Import</button>
+</div><select name="lead_status" id="lead_status">
+    @foreach ($statuses as $statue)
+       <option value="{{$statue->id}}">{{$statue->name}}</option> 
+    @endforeach
+</select>
 </form>
 @endsection
 

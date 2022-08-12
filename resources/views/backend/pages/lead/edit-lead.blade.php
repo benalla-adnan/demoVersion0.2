@@ -181,7 +181,7 @@
                   </div>
                 <div class="col-sm-9 px-0 pt-2">
                   <button class="btn btn-primary custom-btn-small" type="submit" id="btnSubmit">{{ __('Update') }}</button>   
-                  <a href="{{ url('lead') }}" class="btn btn-danger custom-btn-small">{{ __('Cancel') }}</a>
+                  <a href="{{ url('admin/leads') }}" class="btn btn-danger custom-btn-small">{{ __('Cancel') }}</a>
                 </div>   
               </div>
             </div>

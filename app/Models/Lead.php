@@ -11,6 +11,27 @@ class Lead extends Model
     public $timestamps = false;
     protected $table = 'leads';
 
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'assignee_id');
+    }
+
+    public function leadStatus()
+    {
+        return $this->belongsTo('App\Models\LeadStatus', 'lead_status_id');
+    }
+
+    public function leadSource()
+    {
+        return $this->belongsTo('App\Models\LeadSource', 'lead_source_id');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo('App\Models\Country', 'country_id');
+    }
+
     protected $fillable = [
         'first_name',
         'last_name',

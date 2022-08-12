@@ -65,16 +65,16 @@ class SettingsController extends Controller
     }
 
     public function editLanguage($id){
-        $data['menu'] = 'languages';
-        $data['page_title']   = __('Edit Language');
-        $data['languages']   = Language::find($id);
-        if (empty($data['languages'])) {
-            Session::flash('fail', __('Language not found'));
-            return redirect('admin/languages');
-        }
+        
+        $languages   = Language::find($id);
+       
+        // if (empty($data['languages'])) {
+        //     Session::flash('fail', __('Language not found'));
+        //     return redirect('admin/languages');
+        // }
   
 
-        return view('backend.pages.settings.departments.departments-edit',$data);
+        return view('backend.pages.settings.languages.languages-edit',compact("languages"));
     }
 
     public function updateLanguage(Request $request)
@@ -88,6 +88,8 @@ class SettingsController extends Controller
 
         $languages =  Language::find($request->id);
         $languages->name = $request->name;
+        $languages->short_name = $request->short_name;
+        $languages->status = $request->status;
         $languages->save();
         return redirect('admin/languages');
     }

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('backend.pages.settings.settings')
 @section('title')
     CRM-pereine
 @endsection
@@ -10,7 +10,8 @@
 @section('title_page2')
     Edit Department
 @endsection
-@section('content')
+@section('settings-content')
+
 <div class="col-sm-12" id="leadEdit-container">
     <div class="card">
       <div class="card-header">

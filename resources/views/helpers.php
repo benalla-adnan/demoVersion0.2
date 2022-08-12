@@ -14,6 +14,12 @@ use App\Models\File;
 use App\Models\Task;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request as request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 function d($var, $a = false)
 {
@@ -25,10 +31,10 @@ function d($var, $a = false)
 
 function selectDatabase()
 {
-    $host = \Session::get('host');
-    $db_user = \Session::get('db_user');
-    $db_password = \Session::get('db_password');
-    $db_name = \Session::get('db_name');
+    $host = Session::get('host');
+    $db_user = Session::get('db_user');
+    $db_password = Session::get('db_password');
+    $db_name = Session::get('db_name');
 
     if (!empty($host) && !empty($db_user) && !empty($db_name)) {
         selectDatabase1($host, $db_user, $db_password, $db_name);
@@ -54,12 +60,12 @@ function dateRange($startDate, $endDate, $step = '+1 day', $format = 'Y-m-d')
 
 function selectDatabase1($host, $db_user, $db_password, $db_name)
 {
-    \Config::set('database.connections.mysql.host', $host);
-    \Config::set('database.connections.mysql.username', $db_user);
-    \Config::set('database.connections.mysql.password', $db_password);
-    \Config::set('database.connections.mysql.database', $db_name);
-    \Config::set('database.default', 'mysql');
-    \DB::reconnect('mysql');
+    Config::set('database.connections.mysql.host', $host);
+    Config::set('database.connections.mysql.username', $db_user);
+    Config::set('database.connections.mysql.password', $db_password);
+    Config::set('database.connections.mysql.database', $db_name);
+    Config::set('database.default', 'mysql');
+    DB::reconnect('mysql');
 }
 
 
@@ -92,7 +98,7 @@ function dbConnect($host, $db_user, $db_password, $db_name)
 
 function setDbConnect($db_id)
 {
-    $companyData = \DB::table('company')->where('company_id', $db_id)->first();
+    $companyData = DB::table('company')->where('company_id', $db_id)->first();
     $companyData = objectToArray($companyData);
 
     selectDatabase1($companyData['host'], $companyData['db_user'], $companyData['db_password'], $companyData['db_name']);
@@ -131,11 +137,11 @@ function decryptIt($value)
 
 function emptyDatabase()
 {
-    foreach (\DB::select('SHOW TABLES') as $table) {
+    foreach (DB::select('SHOW TABLES') as $table) {
         $table_array = get_object_vars($table);
 
         if (!empty($table_array)) {
-            \Schema::drop($table_array[key($table_array)]);
+            Schema::drop($table_array[key($table_array)]);
         }
     }
 }
@@ -370,7 +376,7 @@ function backup_tables($host, $user, $pass, $name, $tables = '*')
     }
 
     if (mysqli_connect_errno()) {
-        \Session::flash('fail', "Failed to connect to MySQL: " . mysqli_connect_error());
+        Session::flash('fail', "Failed to connect to MySQL: " . mysqli_connect_error());
         return 0;
     }
 
@@ -430,7 +436,7 @@ function backup_tables($host, $user, $pass, $name, $tables = '*')
         if (is_writable(storage_path())) {
             mkdir($path, 0777, true);
         } else {
-            \Session::flash('error', __('Enable write permission'));
+            Session::flash('error', __('Enable write permission'));
             return redirect()->back();
         }
     }
@@ -698,7 +704,7 @@ function timeZoneList()
         $zones_array[$key]['diff_from_GMT'] = 'UTC/GMT ' . date('P', $timestamp);
     }
     return $zones_array;
-    return $timezones;
+    return $timestamp;
 }
 
 function custom_sort($a,$b)
@@ -1538,7 +1544,7 @@ function saveJSONFile($code, $data)
 {
     $jsonData = json_encode($data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
     file_put_contents(base_path('resources/lang/'.$code.'.json'), stripslashes($jsonData));
-    \Cache::forget('lanObject-' . $code);
+    Cache::forget('lanObject-' . $code);
 }
 
 function getRouteAccordingToPermission($arr)
@@ -1549,7 +1555,7 @@ function getRouteAccordingToPermission($arr)
     }
 
     foreach ($arr as $key => $value) {
-        if (Helpers::has_permission(\Auth::user()->id, $key) == 1) {
+        if (Helpers::has_permission(Auth::user()->id, $key) == 1) {
            return $value;
         }
     }

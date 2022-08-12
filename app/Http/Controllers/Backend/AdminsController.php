@@ -7,6 +7,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Role;
 
 class AdminsController extends Controller
@@ -196,5 +197,5 @@ class AdminsController extends Controller
         
     }
 
-   
+
 }

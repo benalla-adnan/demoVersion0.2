@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Imports\LeadsImport;
 use App\Exports\LeadsExport;
 use App\Models\countries;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 class LeadController extends Controller
 {
@@ -73,6 +75,7 @@ class LeadController extends Controller
                 $id = $lead->id;
         DB::commit();
         } catch (\Exception $e) {
+            return
             DB::rollBack();
             return redirect()->back()->withErrors(__('Failed To Add New Lead Information'));
         }
@@ -132,6 +135,7 @@ class LeadController extends Controller
         $lead->country_id = $request->country;
 
         $lead->save();
+        
         return redirect('leads');
     }
     public function view($id)
@@ -158,6 +162,6 @@ public function destroy($id){
 }
 
 public function export(){
-    return Excel::download(new LeadsExport,('Leads-'.time().'.xlsx'));
+    return Excel::download(new LeadsExport,('Leads.xlsx'));
 }
 }

@@ -16,7 +16,10 @@
 
 @section('settings-content')
 
- 
+<div class="col">
+    <a href="{{route('admin.createLeadStatus')}}"><button class="btn btn-primary btn-sm px-4 ">+ Add New</button></a>
+
+</div><!--end col-->   
 <div class="table-responsive">
     <table class="table mb-0 table-centered" >
         <thead>
@@ -45,9 +48,6 @@
         @endforeach
     </table><!--end /table-->
     {{$data->links()}}
-    <div class="col">
-        <a href="{{route('admin.createLeadStatus')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
 
-    </div><!--end col-->   
 </div><!--end /tableresponsive-->
 @endsection

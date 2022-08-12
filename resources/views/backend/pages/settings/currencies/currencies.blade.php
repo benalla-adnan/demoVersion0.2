@@ -6,7 +6,7 @@
 
 @section('settings-content')
 
- 
+<a href="{{route('admin.createcurrencies')}}"><button class="btn btn-primary btn-sm px-4 ">+ Add New</button></a>
 <div class="table-responsive">
     <table class="table mb-0 table-centered" >
         <thead>
@@ -36,7 +36,7 @@
     </table><!--end /table-->
     {{$data->links()}}
     <div class="col">
-        <a href="{{route('admin.createcurrencies')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
+       
 
     </div><!--end col-->   
 </div><!--end /tableresponsive-->

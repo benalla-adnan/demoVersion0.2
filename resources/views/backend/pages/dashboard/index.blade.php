@@ -6,11 +6,11 @@
 @endsection
 
 @section('title_page1')
-    Lead
+    
 @endsection
 
 @section('title_page2')
-    Lead
+    
 @endsection
 @section('content')
 <!-- page title area start -->
@@ -20,19 +20,19 @@
             <div class="breadcrumbs-area clearfix">
                 <h4 class="page-title pull-left">Dashboard</h4>
                 <ul class="breadcrumbs pull-left">
-                    <li><a href="index.html">Home</a></li>
-                    <li><span>Dashboard</span></li>
+                    {{-- <li><a href="index.html">Home</a></li>
+                    <li><span>Dashboard</span></li> --}}
                 </ul>
             </div>
         </div>
         <div class="col-sm-6 clearfix">
-            @include('backend.layouts.partials.logout')
+            {{-- @include('backend.layouts.partials.logout') --}}
         </div>
     </div>
 </div>
 <!-- page title area end -->
 
-<div class="main-content-inner">
+{{-- <div class="main-content-inner">
   <div class="row">
     <div class="col-lg-8">
         <div class="row">
@@ -73,5 +73,5 @@
         </div>
     </div>
   </div>
-</div>
+</div> --}}
 @endsection

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\customers;
+use App\Models\Project;
 use App\Models\projects;
 
 use App\User as User;
@@ -11,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema as FacadesSchema;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Nette\Schema\Schema;
 
 class ProjectController extends Controller
@@ -22,7 +26,7 @@ class ProjectController extends Controller
     return view('backend.pages.project.project-list',$data);
  }
 
- public function create(){
+ public function createProject(){
    $data['projectStatus'] = DB::table('project_statuses')->get();
    $data['customers']     = DB::table('customers')->where('is_active', 1)->get();
    $data['departments']   = DB::table('departments')->first();
@@ -33,42 +37,72 @@ class ProjectController extends Controller
    return view('backend.pages.project.project-add', $data);
  }
 
- public function store( Request $request){
-   $this->validate($request,[
-         'project_name ' => 'required',
-         'status' => 'required',
+ public function storeProject( Request $request){
+  
+  $this->validate($request, [
+      
+         'project_name' => 'required',
+        'status' => 'required',
          'begin_date' => 'required',
+         'due_date' => 'required',
          'members'=>'required',
 
          ]);
+        
 
+      
+        
+         
          try{
-            DB::beginTransaction();
-            $projectMembers = $request->members;
-            $data['name'] = stripBeforeSave($request->project_name);
-            $data['detail']                 = $request->detail;
-            $data['project_type']           = $request->project_type;
-            $data['customer_id']            = (($request->project_type) == 'customer' ? $request->customer_id : NULL);
-            $data['user_id']                = $user_id = Auth::user()->id;
-            $data['project_status_id']      = $request->status;
-            $data['charge_type']            = $request->charge_type;
-            $data['begin_date']             = DbDateFormat($request->begin_date);
-            $data['due_date']               = $request->due_date ? DbDateFormat($request->due_date) : NULL ;
-            $data['improvement']            = 0;
-            $data['improvement_from_task']  = 0;
-            $data['cost']                   = $request->charge_type == 1 ? validateNumbers($request->cost) : 0;
-            $data['per_hour_project_scale'] = validateNumbers($request->per_hour_project_scale);
-            $data['estimated_hours']        = validateNumbers($request->estimated_hours);
-
-            $insertId                       = DB::table('projects')->insertGetId($data);
-
           
+            
+           
+            $newProject = new Project();
+            $projectMembers = $request->members;
+            $newProject ->project_name = ($request->project_name);
+            $newProject ->detail               = $request->detail;
+            $newProject ->project_type           = $request->project_type;
+            $newProject ->customer_id            = (($request->project_type) == 'customer' ? $request->customer_id : NULL);
+            $newProject ->user_id                = Auth::guard('admin')->user()->id;
+            $newProject ->project_status_id      = $request->status;
+            $newProject ->charge_type            = $request->charge_type;
+            $newProject ->begin_date             = ($request->begin_date);
+            $newProject ->due_date               = $request->due_date;
+            $newProject ->improvement            = 0;
+            $newProject ->improvement_from_task  = 0;
+            $newProject ->cost                   = $request->charge_type == 1 ? ($request->cost) : 0;
+            $newProject ->per_hour_project_scale = ($request->per_hour_project_scale);
+            $newProject ->estimated_hours        = ($request->estimated_hours);
 
+            $newProject->save();
+            $id = $newProject->id;
             DB::commit();
-         }catch (Exception $e) {
-            DB::rollBack();
-            return redirect('project/details/'.$insertId)->withErrors(__('Failed To Add The Project'));
+
+            ;
+            
+          if (!empty($projectMembers)) {
+            foreach ($projectMembers as $key => $value) {
+              $projectData['project_id'] = $id;
+              $projectData['user_id']    = $value;
+              DB::table('project_members')->insert($projectData);
+
+             
+            }
           }
+        
+        
+         }catch (Exception $e) {
+           return $e;
+            DB::rollBack();
+            return redirect('admin/project')->withErrors(__('Failed To Add The Project'));
+          }
+
+          if (!empty($id)) {
+            Session::flash('success', __('Successfully Saved'));
+            return redirect('admin/project');
+        } else {
+            return back()->withInput()->withErrors(['email' => __("Invalid Request")]);
+        }
          
  }
 

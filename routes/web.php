@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ProfileController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,14 +37,14 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('roles', 'Backend\RolesController', ['names' => 'admin.roles']);
     Route::resource('users', 'Backend\UsersController', ['names' => 'admin.users']);
     Route::resource('admins', 'Backend\AdminsController', ['names' => 'admin.admins']);
-
+    Route::get('/profile/{id}',[ProfileController::class,'index']);
 
     // Login Routes
     Route::get('/login', 'Backend\Auth\LoginController@showLoginForm')->name('admin.login');
     Route::post('/login/submit', 'Backend\Auth\LoginController@login')->name('admin.login.submit');
 
     // Logout Routes
-    Route::post('/logout/submit', 'Backend\Auth\LoginController@logout')->name('admin.logout.submit');
+    Route::get('/logout', 'Backend\Auth\LoginController@logout');
 
     // Forget Password Routes
     Route::get('/password/reset', 'Backend\Auth\ForgetPasswordController@showLinkRequestForm')->name('admin.password.request');
@@ -65,8 +67,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('project',[ProjectController::class,'list'])->name('admin.project');
     Route::get('/delete-project/{id}',[ProjectController::class,'destroy']);
     Route::post('/delete-project/{id}',[ProjectController::class,'destroy']);
-    Route::get('/create-project',[ProjectController::class,'create'])->name('admin.create-project');
-    Route::post('/create-project',[ProjectController::class,'store']);
+    Route::get('/create-project',[ProjectController::class,'createProject'])->name('admin.create-project');
+    Route::post('/create-project',[ProjectController::class,'storeProject']);
     //Admin Settings
     Route::get('/settings',[SettingsController::class,'index'])->name('admin.settings');
     Route::get('/languages',[SettingsController::class,'languages']);
@@ -132,7 +134,83 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('/delete-lead_source/{id}',[Settingscontroller::class,'destroyLeadSource']);
 
 
+    
+	// Customer
+	Route::get('customer/list', 'CustomerController@index')->name('admin.customer');//->middleware(['permission:manage_customer']);
+	Route::get('customer_list_pdf', 'CustomerController@customerListPdf');
+	Route::get('customer_list_csv', 'CustomerController@customerListCsv');
+	Route::post('email-valid-customer', 'CustomerController@validateCustomerEmail');
+	Route::get('create-customer', 'CustomerController@createCustomer');//->middleware(['permission:add_customer']);
+	Route::post('create-customer', 'CustomerController@storeCustomer');
+	Route::get('/edit-customer/{id}', 'CustomerController@editCustomer');//->middleware(['permission:edit_customer']);
+	Route::post('customer/change-status', 'CustomerController@changeStatus');
+	Route::get('customer/order/{id}', 'CustomerController@salesOrder');
+	Route::get('customer-ledger-filtering-csv', 'CustomerController@ledegerFilterCsv');
+	Route::get('customer-ledger-filtering-pdf', 'CustomerController@ledegerFilterPdf');
+	Route::get('customer-quotation-filtering-pdf', 'CustomerController@quotationFilterPdf');
+	Route::get('customer-quotation-filtering-csv', 'CustomerController@quotationFilterCsv');
+	Route::get('customer/invoice/{id}', 'CustomerController@invoice');
+	Route::get('customer/quotation/filtering/{id}', 'CustomerController@customerQuotationFilter');
+	Route::get('customer/sales-report-csv', 'CustomerController@invoiceCsv');
+	Route::get('customer/sales-report-pdf', 'CustomerController@invoicePdf');
+	Route::get('customer/payment/{id}', 'CustomerController@payment')->middleware(['permission:manage_payment']);
+	Route::get('customer/payment/filtering/{id}', 'CustomerController@customerPaymentFilter');
+	Route::get('customer/payment-report-csv', 'CustomerController@paymentCsv');
+	Route::get('customer/payment-report-pdf', 'CustomerController@paymentPdf');
+	Route::post('/edit-customer/{id}', 'CustomerController@updateCustomer');
+	Route::post('customer/update-password', 'CustomerController@updatePassword');
+    Route::get('delete-customer/{id}', 'CustomerController@destroyCustomer');
+	Route::post('delete-customer/{id}', 'CustomerController@destroyCustomer');//->middleware(['permission:delete_customer']);
+	Route::get('customer/ledger/{id}', 'CustomerController@customerLedger');
+	Route::get('customer/adminlogin/{id}', 'CustomerController@adminLogin');
+	Route::post('customer/billing-address', 'CustomerController@billingAddress');
+	Route::get('customerdownloadCsv', 'CustomerController@downloadCsv');
+	Route::get('customerimport', 'CustomerController@import');
+	Route::post('customerimportcsv', 'CustomerController@importCustomerCsv');
+	Route::post('customer/delete-sales-info', 'CustomerController@deleteSalesInfo');
+    Route::post('customer/email_data', 'CustomerController@cusEmailData');
+	Route::get('customer/project/{id}', 'CustomerController@project');
+	Route::get('customer/projects-csv', 'CustomerController@projectCsv');
+	Route::get('customer/projects-pdf', 'CustomerController@projectPdf');
+	Route::get('customer/task/{id}', 'CustomerController@task');
+	Route::get('customer/tasks-csv', 'CustomerController@taskCsv');
+	Route::get('customer/tasks-pdf', 'CustomerController@taskPdf');
+	Route::get('customer/ticket/{id}', 'CustomerController@ticket');
+	Route::get('customer/tickets-csv', 'CustomerController@ticketCsv');
+	Route::get('customer/tickets-pdf', 'CustomerController@ticketPdf');
 
+//task
+Route::get('project/task/add/{id}', 'ProjectController@addTask');
+Route::get('project/task/add', 'TaskController@addTask');
+Route::post('project/task/get-milestone', 'MilestoneController@getMilestone');
+Route::post('project/task/store', 'TaskController@taskStore');
+Route::get('project/task/edit/{id}', 'TaskController@taskEdit');
+Route::post('project/task/edit/{id}', 'TaskController@taskUpdate');
+Route::get('project/task/destroy/{id}', 'TaskController@taskDelete');
+Route::post('project/task/destroy/{id}', 'TaskController@taskDelete');
+Route::get('project/task/view', 'TaskController@index');
+Route::post('project/task/change-status', 'TaskController@changeStatus');
+Route::get('project/task/get-priority', 'TaskController@getAllPriority');
+Route::post('project/task/change-priority', 'TaskController@changePriority');
+Route::post('project/task/update-description', 'TaskController@updateDescription');
+Route::get('project/task/get-status', 'TaskController@getAllStatus');
+Route::post('project/task/store-comment', 'CommentController@store');
+Route::post('project/task/update-comment', 'CommentController@update');
+Route::post('project/task/delete-comment', 'CommentController@delete');
+Route::get('project/task/get_all_assignee', 'TaskController@getAllAssignee');
+Route::get('project/task/get_all_user', 'TaskController@getAllUser');
+Route::post('project/task/get_rest_assignee', 'TaskController@getRestAssignee');
+Route::post('project/task/assign_assignee', 'TaskController@assignMember');
+Route::post('project/task/delete-assignee', 'TaskController@deleteAssignee');
+Route::post('project/task/store-tag', 'TagController@store');
+Route::post('project/task/delete-tag', 'TagController@delete');
+Route::get('project/task/get-tag', 'TagController@getAll');
+Route::get('project/tasks_pdf', 'TaskController@tasks_pdf');
+Route::get('project/tasks_csv', 'TaskController@tasks_csv');
+Route::get('project/tasks/timesheet/{id}', 'TaskController@projectTimeSheet')->middleware(['permission:manage_project|own_project']);
+Route::post('project/task/timer/delete/{id}', 'TaskController@deleteProjectTimer');
+Route::get('projectTaskPdf', 'TaskController@projectTaskPdf');
+Route::get('projectTaskCsv', 'TaskController@projectTaskCsv');
     
 
 });

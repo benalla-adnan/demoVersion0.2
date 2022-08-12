@@ -9,6 +9,12 @@ Project
 list project
 @endsection
 @section('content')
+<div class="buttonRelation mt-3">      
+        
+    
+    <a href="{{ url('admin/create-project') }}" class="btn btn-outline-primary custom-btn-small"><span class="fa fa-plus"> &nbsp;</span>{{ __('New Project') }}</a>
+  </div> 
+  <br>
 <div class="row">
 @foreach ($projects as $project)
 <?php
@@ -16,12 +22,14 @@ $time_left = floor((strtotime($project->due_date)-strtotime($project->begin_date
 ?>
 
 
-    <a href="{{route('admin.create-project')}}"><button class="btn btn-outline-light btn-sm px-4 ">+ Add New</button></a>
-
-
+ 
 <div class="col-lg-4">
+   
+
     <div class="card">
-        <div class="card-body">                                        
+         
+        <div class="card-body">   
+                                              
             <div class="media mb-3">
                 <img src="{{URL::asset('assets/images/small/project-2.jpg')}}" alt="" class="thumb-md rounded-circle">                                      
                 <div class="media-body align-self-center text-truncate ms-2">                                            

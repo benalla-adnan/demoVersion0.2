@@ -18,7 +18,9 @@ Add Project
 </style>
 @endsection
 @section('content')
-
+@foreach($errors->all() as $error)
+{{$error}}
+@endforeach
 <div class="col-sm-12">
   <div class="card user-list">
     <div class="card-header">
@@ -38,7 +40,7 @@ Add Project
         </ul>
       </div>
       <!-- [ Tabs ] end -->
-        <form class="form-horizontal" method="post" action="{{ url('project/store') }}" id="project_from">
+        <form class="form-horizontal" method="post" action="create-project" id="project_from">
           <input type="hidden" value="{{csrf_token()}}" name="_token" id="token">
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="app_project" role="tabpanel" aria-labelledby="app_project-tab">
@@ -47,7 +49,7 @@ Add Project
                   <div class="form-group row rowMb-0 rowMbFireTab-0">
                     <label class="col-sm-2 control-label require">{{ __('Project Name') }}</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" name="project_name" placeholder="{{ __('Please enter project name') }}">
+                      <input type="text" id ="project_name" class="form-control" name="project_name" placeholder="{{ __('Please enter project name') }}">
                       <label for="project_name" generated="true" class="error display_inline_block"></label>
                     </div>
                   </div>
@@ -128,11 +130,11 @@ Add Project
                   <div class="form-group row">
                     <label class="col-sm-2 control-label require">{{ __('Start Date')  }}</label>
                     <div class="col-sm-3">
-                      <input type="date" id="startDate" name="start_date" class="form-control">
+                      <input type="date" id="startDate" name="begin_date" class="form-control">
                     </div>
                     <label class="col-sm-2 control-label">{{ __('End Date')  }}</label>
                     <div class="col-sm-3">
-                      <input type='date' id="endDate" name="end_date" class="form-control ">
+                      <input type="date"  name="due_date" id="due_date" class="form-control ">
                       <label for="end_date" id="endDate-error" generated="true" class="error display_inline_block"></label>
                       
                     </div>
@@ -157,8 +159,8 @@ Add Project
               </div>
             </div>
             <div class="col-sm-8 px-0">
-              <button class="btn btn-primary custom-btn-small" type="button" id="btnSubmit"><i class="comment_spinner spinner fa fa-spinner fa-spin custom-btn-small display_none"></i><span id="spinnerText">{{ __('Submit') }} </span></button>   
-              <a href="{{ url('project/list') }}" class="btn btn-danger custom-btn-small">{{ __('Cancel')  }}</a>
+              <button class="btn btn-primary custom-btn-small" type="submit" id="btnSubmit"><i class="comment_spinner spinner fa fa-spinner fa-spin custom-btn-small display_none"></i><span id="spinnerText">{{ __('Submit') }} </span></button>   
+              <a href="{{ url('admin/project') }}" class="btn btn-danger custom-btn-small">{{ __('Cancel')  }}</a>
             </div>  
           </div>
         </form>
@@ -167,16 +169,11 @@ Add Project
 </div>
 </div>
 @endsection
-@section('js')
-<script src="{{ URL::asset('assets/js/jquery.validate.min.js')}}"></script>
-<script src="{{ URL::asset('assets/js/select2.full.min.js')}}"></script>
-<script src="{{ URL::asset('assets/js/ckeditor.js') }}"></script>
-<script src="{{ URL::asset('assets/js/jsmoment.min.js') }}"></script>
-<script src="{{ URL::asset('assets/js/daterangepicker.min.js') }}"></script>
-
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
-  $(document).ready(function() {
-      $('.select2').select2();
-  })
+    $(document).ready(function() {
+        $('.select2').select2();
+    })
 </script>
 @endsection
